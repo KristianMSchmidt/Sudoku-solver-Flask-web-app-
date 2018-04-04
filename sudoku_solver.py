@@ -5,7 +5,6 @@ Automatic soduko solver using two different algorithms:
 I both cases, a soduko puzzle is viewed as a 'constraint satisfaction problem'.
 """
 
-import sys
 import copy
 
 def BTS(sudoku):
