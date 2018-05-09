@@ -36,7 +36,7 @@ def AC_3(sudoku, tile):
     Returns false if an inconsistency is found. Returns simplified sudoku otherwise.
     NB: "Non-false" does not mean, that sudoku is solved or solvable.
     NB: This version assumes, that the sudoku was arc-reduced betfore adding
-    a value to the argument tile
+    a value to the argument tile...
     """
     current_sudoku = copy.deepcopy(sudoku)
 
