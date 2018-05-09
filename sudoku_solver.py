@@ -12,7 +12,7 @@ def BTS(sudoku):
     Sudoku solver using Back Tracking Search (a sort of depth first search with "pruning").
     When a variable is assigned, I apply forward checking to reduce variables domains.
     NB: This function alters it's argument.
-    NB: The soduku must have been throuh AC_3 before applying this funtion.
+    NB: The soduku must have been through AC_3 before applying this function.
     """
     if is_solved(sudoku):
         return(sudoku)
