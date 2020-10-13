@@ -146,7 +146,7 @@ def sudoku_solver(sudoku_string):
 
 # ======================= MISSION CONTROL  =====================================
 
-# Some usefull global constants:
+# Some useful global constants:
 TILES = [row + col for row in "ABCDEFGHI" for col in "123456789"]
 ALL_CONSTRAINTS, CONSTRAINT_DICT = gen_constraints()
 
