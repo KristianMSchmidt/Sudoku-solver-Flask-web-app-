@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
+
 {% block body %}
     <h1>Automatic Sudoku Solver</h1>
-
-    <form method="post" action="{{ url_for('show') }}">
+        
+    <form method="post" action="{{ url_for('show') }}" autocomplete="off" id="sudoku_form_1">
         <label for="game1">Sample Sudoku #1: </label>
-                       
+                    
         <input type="text" 
                name="board"
                id="game1"
@@ -18,7 +19,7 @@
     </form>
 
 
-    <form method="post" action="{{ url_for('show') }}">
+    <form method="post" action="{{ url_for('show') }}" autocomplete="off">
         <label for="game2">Sample Sudoku #2: </label>
                        
         <input type="text" 
@@ -32,64 +33,97 @@
 
         <input class= "solve_button" type="submit" name="show_submit"  value="Show"/>
     </form>
-
  
-    <form method="post" action="{{ url_for('show') }}">
-        <label for="game3">Enter Your Soduko:</label>
+    <form method="post" action="{{ url_for('show') }}" autocomplete="off" id="sudoku_form_3">
+        <label for="game3_input">Enter Your Soduko:</label>
         <input type="text" 
                name="board"
-               id="game3"
+               id="game3_input"
                size="86" 
                maxlength="81" 
                placeholder="Enter initial board position as 81 character string"
-               {% if sudoku_string3%}
+               {% if sudoku_title == "Your Sudoku" %}
                    value={{sudoku_string}}
-               {% endif %}>
-               
+                   {% endif %}>
+
         <input type="hidden" name="sudoku_title" value="Your Sudoku">
 
         <input class= "solve_button" type="submit" name="show_submit"  value="Show"/>
     </form>
+    <p id="show_length"></p>
+
+    <script>
+        document.getElementById("game3_input").focus();
+
+        function show_length(){
+            user_input = document.getElementById("game3_input").value;
+            isnum = /^\d+$/.test(user_input);
  
-        
+            if(!isnum){
+                document.getElementById("show_length").innerHTML = "Invalid input (only digits 0-9 allowed)"
+                document.getElementById("show_length").style.color="red";         
+
+            }
+            else{
+                document.getElementById("show_length").innerHTML = "You've entered " + user_input.length + " digits (81 needed)"
+                document.getElementById("show_length").style.color="black";     
+                if (user_input.length == 81){
+                    document.getElementById("show_length").style.color="green";     
+                }
+                //To do: Tegn foreløbig sudoku på brættet. Det ville nok være smartest at lave alt borset fra "solve"
+                // i Javascript!
+                //document.getElementById("sudoku_form_3").submit();
+            }
+        }
+        document.getElementById("game3_input").addEventListener('input', (input) =>{
+            show_length()
+        })
+    </script>
+
     {% if error %}
         <p class="error">{{error}}</p>
     {% elif solved_sudoku %}
         <p>Solved sudoku: {{solved_sudoku}}</p>
-    {% endif %}
+    {% endif %} 
 
-
-    {% if show %}    
-        <p>{{sudoku_title}}</p>
-        <div class="board">
-            {% for i in range(81) %}
-
-                {% if i%9==0%}
-                   <div class="subboard"> 
-                {% endif %} 
-                
-                {% if sudoku_string[i] != "0" %}
-                    <div class="bold" style="font-weight: bold">{{sudoku_string[i]}}</div>
-                {% else %}
-                    <div>&nbsp</div>
-                {% endif %}
-                {% if (i+1)%9==0 %}
-                   </div> 
-                {% endif %}        
-
-            {% endfor %}    
-        </div>
-
-        <form style="margin:25px;" method="post" action="{{ url_for('solver') }}">
-            <input type="hidden" 
-                   name="board"
-                   value="0123">
-            <input class= "solve_button" type="submit" name="solve_submit"  value="Solve"/>
-        </form>
+    <!-- Show "Sample Sudoku #1" by default -->
     
+    {% if not show %}
+        <script>
+            console.log("not show!")
+            document.getElementById("sudoku_form_1").submit();
+        </script>
+    {% endif %} 
     
-    {% endif %}
+    {% if show and not error%} 
+    <p>{{sudoku_title}}</p>
+    
+    <div class="board">
+        {% for i in range(81) %}
 
+            {% if i%9==0%}
+            <div class="subboard"> 
+            {% endif %} 
+            
+            {% if sudoku_string[i] != "0" %}
+                <div class="bold" style="font-weight: bold">{{sudoku_string[i]}}</div>
+            {% else %}
+                <div>&nbsp</div>
+            {% endif %}
+            {% if (i+1)%9==0 %}
+            </div> 
+            {% endif %}        
+
+        {% endfor %}    
+    </div>
+
+
+    <form style="margin:25px;" method="post" action="{{ url_for('solver') }}">
+        <input type="hidden" name="board" value="">
+        <input class= "solve_button" type="submit" name="solve_submit"  value="Solve"/>
+    </form>
+
+    {% endif %}
 
   
 {% endblock body %}

@@ -18,11 +18,9 @@ def index():
 
 @app.route('/show', methods=['GET', 'POST'])
 def show():
-
     try:
         sudoku_string = request.form['board'] 
         sudoku_title = request.form['sudoku_title']
-
     except:
         return render_template("index.html")
 
@@ -31,7 +29,9 @@ def show():
         return render_template(
             'index.html', 
             error = "Sudoku must be a 81 character string containing only digits" ,
-            sudoku_string = sudoku_string
+            sudoku_string = sudoku_string,
+            sudoku_title = sudoku_title,
+            show = True
         )
 
     return render_template(
