@@ -41,32 +41,33 @@ def show():
         show = True
     )
 
-@app.route('/solver', methods=['POST'])
-def solver():
-  
-    sudoku_string = request.form['board']  
-
-    if not (len(sudoku_string) == 81 and sudoku_string.isdigit()):
-        return render_template(
-            'index.html', 
-            error = "Sudoku must be a 81 character string containing only digits" ,
-            sudoku_string = sudoku_string
-        )
+@app.route('/solver', methods=['GET', 'POST'])
+def solver():  
+    try:
+        sudoku_string = request.form['board'] 
+        sudoku_number = request.form['sudoko_number']
+        sudoku_title = request.form['sudoku_title']
+    except:
+        return render_template("index.html")
 
     try:
-        solved_sudoku = sudoku_solver(sudoku_string)
+        solved_sudoku = sudoku_solver(sudoku_string).split(" ")[0]
         return render_template(
-            'index.html', 
+            'index.html',
+            is_solvable = True, 
             solved_sudoku = solved_sudoku,
-            sudoku_string = sudoku_string)
-        
+            sudoku_string = sudoku_string,
+            sudoku_number = sudoku_number,
+            sudoku_title = sudoku_title
+        )        
     except:
         return render_template(
-            'index.html', 
-            error = "Sudoku not solvable",
-            sudoku_string = sudoku_string
+            'index.html',
+            sudoku_string = sudoku_string,
+            not_solvable = True,
+            sudoku_number = sudoku_number,
+            sudoku_title = sudoku_title
         )
         
-
 if __name__ == "__main__":
     app.run(debug=True)
