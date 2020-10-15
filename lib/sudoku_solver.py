@@ -27,7 +27,6 @@ def BTS(sudoku):
             result = BTS(result_from_AC3)
             if result != False:
                 return result
-
     return False
 
 def AC_3(sudoku, tile):

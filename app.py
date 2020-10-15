@@ -1,4 +1,4 @@
-# Setup instuctions
+# Setup instuctions for Flask in Visual Studio Code
 # 1) Make folder/directory for flask project
 # 2) Go to this folder and open terminal 
 # 3) Write command "python -m venv env" (this makes the virtual environment)
@@ -7,23 +7,22 @@
 # 6) In terminal: "python app.py"
 
 from flask import Flask, render_template, request
-from lib.format import format_sudoku_string as format
 from lib.sudoku_solver import sudoku_solver 
 
 app = Flask(__name__)
 
-sample_sudokus = [
+sudokus = [
      {"title": "Sample Sudoku #1",
      "board": "000260701680070090190004500820100040004602900050003028009300074040050036703018000"},
     {"title": "Sample Sudoku #2",
      "board": "000000000302540000050301070000000004409006005023054790000000050700810000080060009"},
-    {"title": "Your Sudoku",
-     "board": ""}
+    {"title": "Sample Suduko #3",
+     "board": "530070000600195000098000060800060003400803001700020006060000280000419005000080079"},
 ]
 
 @app.route("/", methods=['GET'])
 def index():
-    return render_template("index.html", sample_sudokus = sample_sudokus) 
+    return render_template("index.html", sudokus = sudokus) 
 
 @app.route('/solver', methods=['GET', 'POST'])
 def solver():  
@@ -31,7 +30,7 @@ def solver():
         sudoku_string = request.form['board'] 
         sudoku_number = request.form['sudoko_number']
     except:
-        return render_template("index.html", sample_sudokus = sample_sudokus)
+        return render_template("index.html", sudokus = sudokus)
 
     try:
         solved_sudoku = sudoku_solver(sudoku_string).split(" ")[0]
@@ -42,7 +41,7 @@ def solver():
             solved_sudoku = solved_sudoku,
             sudoku_string = sudoku_string,
             sudoku_number = sudoku_number,
-            sample_sudokus = sample_sudokus
+            sudokus = sudokus
         )        
     except:
         return render_template(
@@ -51,7 +50,7 @@ def solver():
             is_solvable = False, 
             sudoku_string = sudoku_string,
             sudoku_number = sudoku_number,
-            sample_sudokus = sample_sudokus
+            sudokus = sudokus
         )
         
 if __name__ == "__main__":

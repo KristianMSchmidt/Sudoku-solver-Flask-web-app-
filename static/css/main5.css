@@ -1,25 +1,49 @@
-.error {
-  color: red;
-}
-
 body {
   border: 1px solid black;
   background-color: blanchedalmond;
-}
-
-body h1 {
   text-align: center;
 }
 
-body .solve_button {
+.succes {
+  color: green;
+}
+
+.failure {
+  color: red;
+}
+
+#solve_btn {
+  margin: 25px;
+}
+
+#sudoku4_input {
+  display: inline;
+  font-size: 13.5px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  width: 610px;
+}
+
+.solve_button {
   display: inline-block;
+}
+
+.fixed_sudoku {
+  background-color: white;
+  border: 1px solid black;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: inline;
 }
 
 .board {
   width: 200px;
   background-color: cornsilk;
   border: 0px;
-  margin-top: 0px;
+  margin-top: 10px;
   margin-left: 530px;
   margin-right: 250px;
   padding: 0px;
@@ -44,4 +68,4 @@ body .solve_button {
   margin: 0px;
   border: 1px solid black;
 }
-/*# sourceMappingURL=main2.css.map */
+/*# sourceMappingURL=main5.css.map */
