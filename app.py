@@ -12,61 +12,46 @@ from lib.sudoku_solver import sudoku_solver
 
 app = Flask(__name__)
 
+sample_sudokus = [
+     {"title": "Sample Sudoku #1",
+     "board": "000260701680070090190004500820100040004602900050003028009300074040050036703018000"},
+    {"title": "Sample Sudoku #2",
+     "board": "000000000302540000050301070000000004409006005023054790000000050700810000080060009"},
+    {"title": "Your Sudoku",
+     "board": ""}
+]
+
 @app.route("/", methods=['GET'])
 def index():
-    return render_template("index.html") 
-
-@app.route('/show', methods=['GET', 'POST'])
-def show():
-    try:
-        sudoku_string = request.form['board'] 
-        sudoku_title = request.form['sudoku_title']
-    except:
-        return render_template("index.html")
-
-    if not (len(sudoku_string) == 81 and sudoku_string.isdigit()):
-    
-        return render_template(
-            'index.html', 
-            error = "Sudoku must be a 81 character string containing only digits" ,
-            sudoku_string = sudoku_string,
-            sudoku_title = sudoku_title,
-            show = True
-        )
-
-    return render_template(
-        'index.html', 
-        sudoku_string = format(sudoku_string),
-        sudoku_title = sudoku_title,
-        show = True
-    )
+    return render_template("index.html", sample_sudokus = sample_sudokus) 
 
 @app.route('/solver', methods=['GET', 'POST'])
 def solver():  
     try:
         sudoku_string = request.form['board'] 
         sudoku_number = request.form['sudoko_number']
-        sudoku_title = request.form['sudoku_title']
     except:
-        return render_template("index.html")
+        return render_template("index.html", sample_sudokus = sample_sudokus)
 
     try:
         solved_sudoku = sudoku_solver(sudoku_string).split(" ")[0]
         return render_template(
             'index.html',
+            return_from_solver = True,
             is_solvable = True, 
             solved_sudoku = solved_sudoku,
             sudoku_string = sudoku_string,
             sudoku_number = sudoku_number,
-            sudoku_title = sudoku_title
+            sample_sudokus = sample_sudokus
         )        
     except:
         return render_template(
             'index.html',
+            return_from_solver = True,
+            is_solvable = False, 
             sudoku_string = sudoku_string,
-            not_solvable = True,
             sudoku_number = sudoku_number,
-            sudoku_title = sudoku_title
+            sample_sudokus = sample_sudokus
         )
         
 if __name__ == "__main__":

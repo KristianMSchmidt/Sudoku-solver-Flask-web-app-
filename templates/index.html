@@ -1,65 +1,51 @@
 {% extends 'base.html' %}
+
+
+{% set title_1 = sample_sudokus[0]["title"] %} 
+{% set board_1 = sample_sudokus[0]["board"] %} 
+
+{% set title_2 = sample_sudokus[1]["title"] %}
+{% set board_2 = sample_sudokus[1]["board"] %} 
+
 {% block body %}
-
-
+  
     <h1>Automatic Sudoku Solver</h1>
 
-    <!-- it would be more elegant to define list of predefined sudokus in python and then echo them out -->
-    <label for="game1">Sample Sudoku #1: </label>
+    <!-- I could make code shorter and scalable by looping through sample sodukus -->
+    <label for="game1">{{title_1}}: </label>
     <p id="game1" style="background-color:white; border:1px solid black; width:fit-content;display:inline">
-        000000000302540000050301070000000004409006005023054790000000050700810000080060009</p>
-    <input type="button" value="Choose" onclick ="show_board(1, 'Sample Sudoku #1')"/><br>
+        {{board_1}}</p>
+    <input type="button" value="Choose" onclick ="input_handler(1)"/><br>
 
-    <label for="game2">Sample Sudoku #2: </label>
+    <label for="game2">{{title_2}}:</label>
     <p id="game2" style="background-color:white; border:1px solid black; width:fit-content;display:inline">
-        000260701680070090190004500820100040004602900050003028009300074040050036703018000</p>
-    <input type="button" value="Choose" onclick ="show_board(2, 'Sample Sudoku #2')"/>
-
+        {{board_2}}</p>
+    <input type="button" value="Choose" onclick ="input_handler(2)"/>
     
     <form method="post" action="{{ url_for('solver') }}"  id="sudoku_form_1">
-        <input type="hidden" name="board" id="game1_input" 
-               value="000000000302540000050301070000000004409006005023054790000000050700810000080060009">
-        <input type="hidden" name="sudoku_title" value="Example Sudoku #1">
+        <input type="hidden" name="board" id="game1_input" value={{board_1}}>
         <input type="hidden" name="sudoko_number" value="1">
-        
     </form>
 
     <form method="post" action="{{ url_for('solver') }}" id="sudoku_form_2">                       
-        <input type="hidden" name="board" id="game2_input"
-               value="000260701680070090190004500820100040004602900050003028009300074040050036703018000">
-        <input type="hidden" name="sudoku_title" value="Example Sudoku #2">
+        <input type="hidden" name="board" id="game2_input" value={{board_2}}>
         <input type="hidden" name="sudoko_number" value="2">
-
     </form>
  
     <form method="post" action="{{ url_for('solver') }}" autocomplete="off" id="sudoku_form_3">
         <label for="game3_input">Enter Your Soduko:</label>
-        <input type="text" 
-               style="
-                display: inline;
-                margin-top: 1em;
-                margin-bottom: 1em;
-                margin-left: 0;
-                margin-right: 0;"
-               name="board"
-               id="game3_input"
-               size="86" 
-               maxlength="81" 
+        <input type="text" style="display: inline;margin-top: 1em;margin-bottom: 1em;margin-left: 0; margin-right: 0;"
+               name="board" id="game3_input" size="86" maxlength="81" 
                placeholder="Enter initial board position as 81 digit string"
                {% if sudoku_number == 3 %}
                    value={{sudoku_string}}
-                   {% endif %}>
-
-        <input type="hidden" name="sudoku_title" value="Your Sudoku">
+               {% endif %}>
         <input type="hidden" name="sudoko_number" value="3">
-
-        <input type="button" value="Choose" onclick ="show_board(3, 'Your Sudoku')"/>
-
+        <input type="button" value="Choose" onclick ="input_handler(3)"/>
     </form>
 
     <p id="input_feedback"></p>
   
-
     <p id="sudoku_title">Sudoku</p>
 
     <div class="board">
@@ -169,71 +155,116 @@
 
     <script>
         document.getElementById("game3_input").focus();
- 
-        function show_board(game_number, sudoku_title, is_solved = false){
 
-            /* Show sudoku board -- regardless of errors */
-            document.getElementById("sudoku_title").innerHTML = sudoku_title;
-            sudoku = document.getElementById("game"+ game_number + "_input").value;
+        document.getElementById("game3_input").addEventListener('input', (event) => {
+            input_handler(3)    ;
+        });
 
-            if(sudoku.length < 81){
-                //right pad sudoku with zeros if it's shorter than 81 digits
-                zeros = "".padStart(81 - sudoku.length, '0');
-                sudoku += zeros;
-            }
+
+        function show_board(game_number, sudoku, is_solution=false){
+            /* game_number is an integer
+               sudoku is 81 string (possibly with errors)
+               optional argument tells us if it is a solution or not 
+            
+               This function should do the following: 
+               1)
+               If not solution 
+                  Draw the soduku, and make non-zero input fontweight bold.
+               If solution:
+                  Draw the solution without changing bold fontweight 
+               
+               2)
+               Show title of sudoku
+               
+            //Draw sudoku */
+
             for (let index = 0; index < 81; index++) {
-                if (sudoku[index]!="0"){
-                    document.getElementById(index).style.fontWeight = "bold";
+                if (sudoku[index] != "0"){
                     document.getElementById(index).innerHTML = sudoku[index]
+                    if(!is_solution){
+                        document.getElementById(index).style.fontWeight = "bold";
+                    }
                 }
                 else{
+                    //input is 0: this only happens when input is not a solution
                     document.getElementById(index).style.fontWeight = "normal";
                     document.getElementById(index).innerHTML = "&nbsp";
                 }
             }
+            // Show title
+            const titles = {
+                1: '{{sample_sudokus[0]["title"]}}',
+                2: '{{sample_sudokus[1]["title"]}}',
+                3: '{{sample_sudokus[2]["title"]}}',
+            }
+            document.getElementById("sudoku_title").innerHTML=titles[game_number];
+        }
 
-            /* Check for errors in user input */
+        
+        function zero_pad(str){
+                //right pad string with zeros if it's shorter than 81 digits
+                zeros = "".padStart(81 - str.length, '0');
+                str += zeros;
+                return str             
+            }
 
-            isnum = /^\d+$/.test(sudoku); //only digits are alloed 
+
+        
+        function input_handler(game_number){
+            /*This function is to be called, when user enters "choose" and every time the value og the
+              sudoku input field is changed.
+              1) Tell user about possible errors in input (not digit values)
+              2) Enable solve button if no errors
+                 Disable solve button if errors
+              3) Draw input sudoku regardless of errors --> use another function to do this
+
+            */
+
+            original_sudoku = document.getElementById("game"+ game_number + "_input").value;
+
+            /* Check for errors in input */
+            isnum = /^\d+$/.test(original_sudoku); //only digits are alloed 
  
-            if(!isnum && sudoku.length>0){
+            if(!isnum && original_sudoku.length>0){
+                //There is an error in input
                 document.getElementById("input_feedback").innerHTML = "Invalid input (only digits 0-9 allowed)"
                 document.getElementById("input_feedback").style.color="red";      
-                document.getElementById("solve_btn").disabled = true;
+                document.getElementById("solve_btn").disabled = true;  
             }
             else{
-                //document.getElementById("input_feedback").innerHTML = "You've entered " + sudoku.length + "/81 digits"
+                //No errors in input
                 document.getElementById("input_feedback").style.color="black";   
                 document.getElementById("input_feedback").innerHTML="";   
                 document.getElementById("solve_btn").disabled = false;  
                 document.getElementById("solve_btn").addEventListener('click', (event) => {
+                    document.getElementById("game"+game_number+"_input").value=zero_pad(original_sudoku)
                     document.getElementById("sudoku_form_" + game_number).submit();
-                })
+                });
             }
-        }
+
+            //Draw board position (regardless of errors in input)
+            show_board(game_number, zero_pad(original_sudoku))
+        } 
         
-        document.getElementById("game3_input").addEventListener('input', (input) =>{
-            show_board("3", 'Your Sudoku');
-        })
     </script>
 
-    {% if is_solvable %}
+    {% if return_from_solver%}
         <script>
-            show_board("{{sudoku_number}}", "{{sudoku_title}}");
-            document.getElementById("input_feedback").innerHTML="";
-            document.getElementById("input_feedback").style.color="black";          
+            show_board("{{sudoku_number}}", "{{sudoku_string}}");
         </script>
-          <p>Solved sudoku: {{solved_sudoku}}</p>
-          <p>Original sudoku: {{sudoku_string}}</p>
-    {% elif not_solvable %}
-        <script>
-            show_board("{{sudoku_number}}", "{{sudoku_title}}");
-            document.getElementById("input_feedback").innerHTML="This sudoku has no solution";
-            document.getElementById("input_feedback").style.color="red";      
-        </script>
+        {% if is_solvable == true %}
+            <script>
+                show_board("{{sudoku_number}}", "{{solved_sudoku}}", is_solution= true);
+                document.getElementById("sudoku_title").innerHTML += '  ...' + '<span style="color:green; font-weight:bold"> has been solved!</span>';
+            </script>
+        {% else %}
+            <script>
+                document.getElementById("sudoku_title").innerHTML += '  ...' + '<span style="color:red; font-weight:bold"> has no solution!</span>';
+            </script>
+        {% endif %}
     {% else %}
         <script>
-          show_board(1, 'Sample Sudoku #1');
+          input_handler(1);
         </script>
     {% endif %} 
 
