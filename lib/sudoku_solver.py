@@ -1,10 +1,9 @@
 """
 Automatic soduko solver using two different algorithms:
  1) AC-3 algorithm (short for Arc Consistency Algorithm #3)
- 2) Backtracking
+ 2) BTS (Back Tracking Search)
 In both cases, a soduko puzzle is viewed as a 'constraint satisfaction problem'.
 """
-
 import copy
 
 def BTS(sudoku):
@@ -27,7 +26,6 @@ def BTS(sudoku):
             result = BTS(result_from_AC3)
             if result != False:
                 return result
-
     return False
 
 def AC_3(sudoku, tile):
