@@ -44,6 +44,11 @@ function zero_pad(str){
         return str             
     }
 
+function show_handler(sudoku_number){
+    document.getElementById('sudoku_area').scrollIntoView();
+    input_handler(sudoku_number);   
+}
+
 function input_handler(sudoku_number){
     /*This function is to be called, when user clicks "show" and every time the value og the
         sudoku input field is changed.

@@ -7,7 +7,7 @@
     {% for sudoku in sudokus %} 
         <label for="sudoku_{{loop.index}}">{{sudoku.title}}: </label>
         <p id="sudoku_{{loop.index}}" class="sample_sudoku_string">{{sudoku.board}}</p>
-        <input type="button" value="Show" onclick="input_handler('{{loop.index}}')"/><br>
+        <input type="button" value="Show" onclick="show_handler('{{loop.index}}')"/><br>
 
         <form method="post" action="{{ url_for('solver') }}"  id="sudoku_form_{{loop.index}}">
             <input type="hidden" name="board" id="sudoku{{loop.index}}_input" value={{sudoku.board}}>
@@ -23,14 +23,14 @@
                placeholder="Enter your own sudoku">
         <input type="hidden" name="sudoko_number" value="4">
         <input type="hidden" name="title" id="title_4" value="Your Sudoku">
-        <input type="button" value="Show" onclick ="input_handler(4)"/>
+        <input type="button" value="Show" onclick ="show_handler(4)"/>
     </form>
 
     <p id="input_error">&nbsp;</p>
     <h4 id="sudoku_title">Sudoku</h4>
     <p id="feedback">&nbsp</p>
 
-    <div class="container">
+    <div id="sudoku_area" class="container">
         {% include 'sudoku_board.html' %}
     </div>
     <input id="solve_btn" type="button" value="Solve"/>
@@ -58,7 +58,7 @@
         {% else %}
             <script>
                 document.getElementById("feedback").style.color = "red";
-                document.getElementById("feedback").innerHTML += "Your sudoku has no solution!";
+                document.getElementById("feedback").innerHTML += "This sudoku has no solution!";
             </script>
         {% endif %}
     {% else %}
