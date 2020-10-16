@@ -4,8 +4,23 @@ body {
   text-align: center;
 }
 
+#input_error {
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+#feedback {
+  margin: 0;
+  margin-top: 5px;
+}
+
+#sudoku_title {
+  margin: 0;
+}
+
 #solve_btn {
-  margin: 25px;
+  margin-top: 15px;
+  margin-bottom: 30px;
 }
 
 #sudoku4_input {
@@ -18,10 +33,7 @@ body {
   width: 610px;
 }
 
-.solve_button {
-  display: inline-block;
-}
-.fixed_sudoku {
+.sample_sudoku_string {
   background-color: white;
   border: 1px solid black;
   width: fit-content;
@@ -29,27 +41,47 @@ body {
 }
 
 .board {
-  width: 200px;
-  background-color: cornsilk;
-  border: 0px;
-  margin-top: 10px;
-  margin-left: 530px;
-  margin-right: 250px;
-  padding: 0px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0;
+  width: 200px;
+  height: 200px;
+  background-color: cornsilk;
+  margin-top: 10px;
+  padding: 0px;
 }
 
 .subboard {
-  border: 3px solid black;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border-top: 3px solid black;
+  border-right: 3px solid black;
+  &.left-border {
+    border-left: 3px solid black;
+  }
+  &.bottom-border {
+    border-bottom: 3px solid black;
+  }
   text-align: center;
 }
 
 .subboard > div {
   margin: 0px;
+  padding: 0;
+  border: 0;
   border: 1px solid black;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }

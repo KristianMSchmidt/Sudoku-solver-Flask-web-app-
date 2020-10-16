@@ -51,6 +51,7 @@ function input_handler(sudoku_number){
         2) Enable solve button if no errors
             Disable solve button if errors
         3) Draw input sudoku regardless of errors --> use another function to do this
+        4) Clear feedback message
     */
 
     original_sudoku = document.getElementById("sudoku"+ sudoku_number + "_input").value;
@@ -60,14 +61,14 @@ function input_handler(sudoku_number){
 
     if(!isnum && original_sudoku.length>0){
         //There is an error in input
-        document.getElementById("feedback").innerHTML = "Invalid input (only digits 0-9 allowed)"
-        document.getElementById("feedback").style.color="red";      
+        document.getElementById("input_error").innerHTML = "Invalid input (only digits 0-9 are allowed)"
+        document.getElementById("input_error").style.color="red";      
         document.getElementById("solve_btn").disabled = true;  
     }
     else{
         //No errors in input
-        document.getElementById("feedback").style.color="black";   
-        document.getElementById("feedback").innerHTML="";   
+        document.getElementById("input_error").style.color="black";   
+        document.getElementById("input_error").innerHTML="&nbsp";   
         document.getElementById("solve_btn").disabled = false;  
         document.getElementById("solve_btn").addEventListener('click', (event) => {
             document.getElementById("sudoku"+sudoku_number+"_input").value=zero_pad(original_sudoku)
@@ -77,6 +78,9 @@ function input_handler(sudoku_number){
 
     //Draw board position (regardless of errors in input)
     show_board(sudoku_number, zero_pad(original_sudoku))
+
+    //Clear feedback message
+    document.getElementById("feedback").innerHTML="&nbsp";
 } 
 
 function remove_trailing_zeros(str){

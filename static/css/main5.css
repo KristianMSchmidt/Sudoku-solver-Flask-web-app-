@@ -4,16 +4,23 @@ body {
   text-align: center;
 }
 
-.succes {
-  color: green;
+#input_error {
+  margin-top: 0;
+  margin-bottom: 30px;
 }
 
-.failure {
-  color: red;
+#feedback {
+  margin: 0;
+  margin-top: 5px;
+}
+
+#sudoku_title {
+  margin: 0;
 }
 
 #solve_btn {
-  margin: 25px;
+  margin-top: 15px;
+  margin-bottom: 30px;
 }
 
 #sudoku4_input {
@@ -26,11 +33,7 @@ body {
   width: 610px;
 }
 
-.solve_button {
-  display: inline-block;
-}
-
-.fixed_sudoku {
+.sample_sudoku_string {
   background-color: white;
   border: 1px solid black;
   width: -webkit-fit-content;
@@ -40,32 +43,66 @@ body {
 }
 
 .board {
-  width: 200px;
-  background-color: cornsilk;
-  border: 0px;
-  margin-top: 10px;
-  margin-left: 530px;
-  margin-right: 250px;
-  padding: 0px;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[3];
       grid-template-columns: repeat(3, 1fr);
-  grid-template-columns: repeat(3, 1fr);
+  -ms-grid-rows: (1fr)[3];
+      grid-template-rows: repeat(3, 1fr);
+  gap: 0;
+  width: 200px;
+  height: 200px;
+  background-color: cornsilk;
+  margin-top: 10px;
+  padding: 0px;
 }
 
 .subboard {
-  border: 3px solid black;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[3];
       grid-template-columns: repeat(3, 1fr);
-  grid-template-columns: repeat(3, 1fr);
+  -ms-grid-rows: (1fr)[3];
+      grid-template-rows: repeat(3, 1fr);
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border-top: 3px solid black;
+  border-right: 3px solid black;
   text-align: center;
+}
+
+.subboard.left-border {
+  border-left: 3px solid black;
+}
+
+.subboard.bottom-border {
+  border-bottom: 3px solid black;
 }
 
 .subboard > div {
   margin: 0px;
+  padding: 0;
+  border: 0;
   border: 1px solid black;
+}
+
+.container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 /*# sourceMappingURL=main5.css.map */

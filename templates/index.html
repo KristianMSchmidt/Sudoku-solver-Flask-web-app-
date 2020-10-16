@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block body %}
     
-    <h1>Sudoku Solver</h1>
-    <p>Solve one of the sample sudokus or enter your own own</p>
+    <h1>Fast Sudoku Solver</h1>
+    <p>Solve one of the sample sudokus or enter your own</p>
    
     {% for sudoku in sudokus %} 
         <label for="sudoku_{{loop.index}}">{{sudoku.title}}: </label>
-        <p id="sudoku_{{loop.index}}" class="fixed_sudoku">{{sudoku.board}}</p>
+        <p id="sudoku_{{loop.index}}" class="sample_sudoku_string">{{sudoku.board}}</p>
         <input type="button" value="Show" onclick="input_handler('{{loop.index}}')"/><br>
 
         <form method="post" action="{{ url_for('solver') }}"  id="sudoku_form_{{loop.index}}">
@@ -26,11 +26,13 @@
         <input type="button" value="Show" onclick ="input_handler(4)"/>
     </form>
 
-    <p id="feedback"></p>
+    <p id="input_error">&nbsp;</p>
     <h4 id="sudoku_title">Sudoku</h4>
+    <p id="feedback">&nbsp</p>
 
-    {% include 'sudoku_board.html' %}
-
+    <div class="container">
+        {% include 'sudoku_board.html' %}
+    </div>
     <input id="solve_btn" type="button" value="Solve"/>
 
     <script src="../static/js/main.js"></script>
@@ -51,13 +53,12 @@
             <script>
                 show_board("{{sudoku_number}}", "{{solved_sudoku}}", is_solution= true);
                 document.getElementById("feedback").style.color = "green";
-                document.getElementById("feedback").innerHTML += "[Solved using {{solution_method}}]";
+                document.getElementById("feedback").innerHTML += "Solved using {{solution_method}}";
             </script>
         {% else %}
             <script>
                 document.getElementById("feedback").style.color = "red";
-                document.getElementById("feedback").innerHTML += "[Your sudoku has no solution]";
-
+                document.getElementById("feedback").innerHTML += "Your sudoku has no solution!";
             </script>
         {% endif %}
     {% else %}
