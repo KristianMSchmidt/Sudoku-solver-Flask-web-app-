@@ -7,7 +7,7 @@
 # 6) In terminal: "python app.py"
 
 from flask import Flask, render_template, request
-from lib.sudoku_solver import sudoku_solver 
+from algorithm import sudoku_solver 
 
 app = Flask(__name__)
 
