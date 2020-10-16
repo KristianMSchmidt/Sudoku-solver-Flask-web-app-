@@ -33,7 +33,13 @@ def solver():
         return render_template("index.html", sudokus = sudokus)
 
     try:
-        solved_sudoku = sudoku_solver(sudoku_string).split(" ")[0]
+        solution_feedback = sudoku_solver(sudoku_string).split()
+        solved_sudoku = solution_feedback[0]
+        if solution_feedback[1] == "BTS":
+            solution_method = "Arc Consistency Algorithm #3 & Backtracking Search"
+        else: 
+            solution_method = "Arc Consistency Algorithm #3"
+
         return render_template(
             'index.html',
             return_from_solver = True,
@@ -41,7 +47,8 @@ def solver():
             solved_sudoku = solved_sudoku,
             sudoku_string = sudoku_string,
             sudoku_number = sudoku_number,
-            sudokus = sudokus
+            sudokus = sudokus,
+            solution_method = solution_method
         )        
     except:
         return render_template(

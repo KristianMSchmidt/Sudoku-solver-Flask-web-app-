@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block body %}
     
-    <h1>Automatic Sudoku Solver</h1>
-    <p>Solve one of the sample sudokus or enter your own.</p>
-
+    <h1>Sudoku Solver</h1>
+    <p>Solve one of the sample sudokus or enter your own own</p>
+   
     {% for sudoku in sudokus %} 
         <label for="sudoku_{{loop.index}}">{{sudoku.title}}: </label>
         <p id="sudoku_{{loop.index}}" class="fixed_sudoku">{{sudoku.board}}</p>
@@ -20,17 +20,16 @@
         <label for="sudoku_4">Your Sudoku:</label>
         <input type="text" 
                name="board" id="sudoku4_input" maxlength="81" 
-               placeholder="Enter your sudoku as 81 digit string">
+               placeholder="Enter your own sudoku">
         <input type="hidden" name="sudoko_number" value="4">
         <input type="hidden" name="title" id="title_4" value="Your Sudoku">
         <input type="button" value="Show" onclick ="input_handler(4)"/>
     </form>
 
-    <p id="input_feedback"></p>
+    <p id="feedback"></p>
     <h4 id="sudoku_title">Sudoku</h4>
 
     {% include 'sudoku_board.html' %}
-
 
     <input id="solve_btn" type="button" value="Solve"/>
 
@@ -40,22 +39,25 @@
     {% if return_from_solver%}
         {% if sudoku_number == "4" %}
             <script>
-                document.getElementById("sudoku4_input").value = "{{sudoku_string}}";
+                reduced_str = remove_trailing_zeros("{{sudoku_string}}");
+                document.getElementById("sudoku4_input").value = reduced_str;
             </script>
         {% endif %}
         <script>
             show_board("{{sudoku_number}}", "{{sudoku_string}}");
         </script>
         {% if is_solvable == true %}
+
             <script>
                 show_board("{{sudoku_number}}", "{{solved_sudoku}}", is_solution= true);
-                const succes_mgs = '  ...<span class="succes">has been solved!</span>';
-                document.getElementById("sudoku_title").innerHTML += succes_mgs;
+                document.getElementById("feedback").style.color = "green";
+                document.getElementById("feedback").innerHTML += "[Solved using {{solution_method}}]";
             </script>
         {% else %}
             <script>
-                const faiure_mgs = '  ...<span class="failure">has no solution!</span>';
-                document.getElementById("sudoku_title").innerHTML += faiure_mgs;
+                document.getElementById("feedback").style.color = "red";
+                document.getElementById("feedback").innerHTML += "[Your sudoku has no solution]";
+
             </script>
         {% endif %}
     {% else %}

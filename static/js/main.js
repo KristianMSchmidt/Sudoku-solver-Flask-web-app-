@@ -1,7 +1,7 @@
 document.getElementById("sudoku4_input").focus();
 
 document.getElementById("sudoku4_input").addEventListener('input', (event) => {
-    input_handler(4)    ;
+    input_handler(4);
 });
 
 function show_board(sudoku_number, sudoku, is_solution=false){
@@ -60,14 +60,14 @@ function input_handler(sudoku_number){
 
     if(!isnum && original_sudoku.length>0){
         //There is an error in input
-        document.getElementById("input_feedback").innerHTML = "Invalid input (only digits 0-9 allowed)"
-        document.getElementById("input_feedback").style.color="red";      
+        document.getElementById("feedback").innerHTML = "Invalid input (only digits 0-9 allowed)"
+        document.getElementById("feedback").style.color="red";      
         document.getElementById("solve_btn").disabled = true;  
     }
     else{
         //No errors in input
-        document.getElementById("input_feedback").style.color="black";   
-        document.getElementById("input_feedback").innerHTML="";   
+        document.getElementById("feedback").style.color="black";   
+        document.getElementById("feedback").innerHTML="";   
         document.getElementById("solve_btn").disabled = false;  
         document.getElementById("solve_btn").addEventListener('click', (event) => {
             document.getElementById("sudoku"+sudoku_number+"_input").value=zero_pad(original_sudoku)
@@ -78,3 +78,17 @@ function input_handler(sudoku_number){
     //Draw board position (regardless of errors in input)
     show_board(sudoku_number, zero_pad(original_sudoku))
 } 
+
+function remove_trailing_zeros(str){
+    let len = str.length;
+    let reduced_str = str
+    for (let i = 0; i < len; i++) {
+        if (str[len-1-i] == 0){
+            reduced_str = str.substring(0,len-1-i);
+        }
+        else{
+            return reduced_str;
+        }
+    }
+    return "";
+}
