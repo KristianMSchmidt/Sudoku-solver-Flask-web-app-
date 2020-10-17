@@ -108,6 +108,12 @@ body {
   }
 }
 
+@media only screen and (max-width: 315px) {
+  #custom_input {
+    width: 90%;
+  }
+}
+
 @media only screen and (max-width: 260px) {
   .btn {
     width: 90%;
