@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+    {% extends 'base.html' %}
 
 {% block body %}
 <h1>Sudoku Solver</h1>
@@ -20,7 +20,7 @@
     {% include 'sudoku_board.html' %}
 </div>
 
-<p id="input_error">"Invalid input (only digits 0-9 are allowed)"</p>
+<p id="input_error">Invalid input (only digits 0-9 allowed)</p>
 
 <form  id="custom_form" autocomplete="off" onkeydown="return event.key != 'Enter'">
     <input type="text" name="custom_input" id="custom_input" maxlength="81" 
