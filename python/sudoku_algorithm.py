@@ -150,9 +150,7 @@ TILES = [row + col for row in "ABCDEFGHI" for col in "123456789"]
 ALL_CONSTRAINTS, CONSTRAINT_DICT = gen_constraints()
 
 
-
-# ======================= TEST  =====================================
-print("Hej fra alori")
+# ======================= TESTING  =====================================
 if __name__ == "__main__":
 
     def small_test():
