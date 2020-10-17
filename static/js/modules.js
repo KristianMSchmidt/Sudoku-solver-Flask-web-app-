@@ -1,4 +1,6 @@
 function remove_trailing_zeros(str){
+    /* Simple helper function that removes insignificant trailing zeros from a sudoku string
+    entered by user */
     let len = str.length;
     let reduced_str = str
     for (let i = 0; i < len; i++) {
@@ -13,8 +15,10 @@ function remove_trailing_zeros(str){
 }
 
 function show_board(sudoku, is_solution=false){
-    /*  sudoku is 81 string (possibly with errors)
-        optional argument tells us if the given sudoku is a solved sudoku or not 
+    /* Helper function that takes a soduko string and shows it on the sudoku board
+    
+       The sudoku is 81 string (possibly with errors input errors).
+       The optional argument tells us if the given sudoku is a solved sudoku or not. 
     
         This function should do the following: 
         If sudoku is not solution 
@@ -22,7 +26,7 @@ function show_board(sudoku, is_solution=false){
         If solution:
             Draw the solution without changing bold fontweight 
     */        
-    //Draw sudoku 
+
     for (let index = 0; index < 81; index++) {
         if (sudoku[index] != "0"){
             document.getElementById(index).innerHTML = sudoku[index]
@@ -39,17 +43,18 @@ function show_board(sudoku, is_solution=false){
 }
 
 function zero_pad(str){
-    //right pad string with zeros if it's shorter than 81 digits
+    //Right pad string with zeros if it's shorter than 81 digits
     zeros = "".padStart(81 - str.length, '0');
     str += zeros;
     return str             
 }
 
 function input_handler(){
-    /*This function is to be called, when user changes custom input field:
+    /*This function is to be called every time the user changes the value of the input field.
+      I should to do following:
         1) Tell user about possible errors in input (not digit values)
-        2) Enable solve button if no errors
-            Disable solve button if errors
+        2) Enable solve button if no errors in input
+           Disable solve button if errors
         3) Draw input sudoku regardless of errors
         4) Clear solution feedback message
     */
@@ -77,4 +82,24 @@ function input_handler(){
 
     //Clear feedback message
     document.getElementById("solution_feedback").innerHTML="&nbsp";
-    } 
+} 
+
+function setup_custom_sudoku(sudoku){
+    document.getElementById("custom_form").style.visibility="visible";
+    document.getElementById("custom_input").value=remove_trailing_zeros(sudoku);
+    document.getElementById("custom_input").focus();
+    document.getElementById("custom_input").addEventListener('input', (event) => {
+    input_handler();
+    });
+}
+
+function show_succes(solved_sudoku, solution_method){
+    show_board(solved_sudoku, is_solution=true); 
+    document.getElementById("solution_feedback").style.color = "green";
+    document.getElementById("solution_feedback").innerHTML += "Solved using " + solution_method;
+}
+
+function show_failure(){
+    document.getElementById("solution_feedback").style.color = "red";
+    document.getElementById("solution_feedback").innerHTML += "This sudoku has no solution!";
+}
