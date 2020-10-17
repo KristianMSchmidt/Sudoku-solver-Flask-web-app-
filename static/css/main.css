@@ -23,12 +23,19 @@ body {
 }
 
 .sudoku_title {
-  margin: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
 }
 
 #solve_btn {
   margin-top: 10px;
   margin-bottom: 5px;
+}
+
+.btn {
+  width: 175px;
 }
 
 #custom_form {
@@ -42,34 +49,31 @@ body {
   margin-bottom: 1em;
   margin-left: 0;
   margin-right: 0;
-  min-width: 200px;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 400px;
 }
 
 .board {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[3];
-      grid-template-columns: repeat(3, 1fr);
-  -ms-grid-rows: (1fr)[3];
-      grid-template-rows: repeat(3, 1fr);
+  -ms-grid-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  -ms-grid-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   gap: 0;
   width: 200px;
   height: 200px;
   background-color: cornsilk;
   margin-top: 1em;
-  padding: 0px;
+  padding: 0;
 }
 
 .subboard {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[3];
-      grid-template-columns: repeat(3, 1fr);
-  -ms-grid-rows: (1fr)[3];
-      grid-template-rows: repeat(3, 1fr);
+  -ms-grid-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  -ms-grid-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   gap: 0;
   margin: 0;
   padding: 0;
@@ -87,7 +91,7 @@ body {
 }
 
 .subboard > div {
-  margin: 0px;
+  margin: 0;
   padding: 0;
   border: 0;
   border: 1px solid black;
@@ -101,15 +105,42 @@ body {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+@media only screen and (max-width: 480px) {
+  .btn {
+    width: 200px;
+    margin-bottom: 1em;
+  }
+  #custom_input {
+    width: 260px;
+  }
+}
+
+@media only screen and (max-width: 315px) {
+  #custom_input {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 260px) {
+  .btn {
+    width: 90%;
+    margin-bottom: 1em;
+  }
+  #custom_input {
+    width: 90%;
+  }
 }
 /*# sourceMappingURL=main.css.map */
