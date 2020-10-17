@@ -42,6 +42,7 @@
     "{% if title=='Your Sudoku'%}"
         document.getElementById("custom_form").style.visibility="visible";
         document.getElementById("custom_input").value=remove_trailing_zeros("{{sudoku}}");
+        document.getElementById("custom_input").focus();
         document.getElementById("custom_input").addEventListener('input', (event) => {
         input_handler();
        });

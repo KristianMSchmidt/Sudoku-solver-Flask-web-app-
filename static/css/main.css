@@ -38,23 +38,6 @@ body {
   width: 175px;
 }
 
-@media only screen and (max-width: 480px) {
-  .btn {
-    width: 200px;
-    margin-bottom: 1em;
-  }
-}
-
-@media only screen and (max-width: 260px) {
-  .btn {
-    width: 90%;
-    margin-bottom: 1em;
-  }
-  #custom_input {
-    min-width: 200px;
-  }
-}
-
 #custom_form {
   visibility: hidden;
 }
@@ -66,34 +49,31 @@ body {
   margin-bottom: 1em;
   margin-left: 0;
   margin-right: 0;
-  min-width: 200px;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 400px;
 }
 
 .board {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[3];
-      grid-template-columns: repeat(3, 1fr);
-  -ms-grid-rows: (1fr)[3];
-      grid-template-rows: repeat(3, 1fr);
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+  -ms-grid-rows: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
   gap: 0;
   width: 200px;
   height: 200px;
   background-color: cornsilk;
   margin-top: 1em;
-  padding: 0px;
+  padding: 0;
 }
 
 .subboard {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[3];
-      grid-template-columns: repeat(3, 1fr);
-  -ms-grid-rows: (1fr)[3];
-      grid-template-rows: repeat(3, 1fr);
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+  -ms-grid-rows: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
   gap: 0;
   margin: 0;
   padding: 0;
@@ -111,7 +91,7 @@ body {
 }
 
 .subboard > div {
-  margin: 0px;
+  margin: 0;
   padding: 0;
   border: 0;
   border: 1px solid black;
@@ -135,5 +115,25 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+@media only screen and (max-width: 480px) {
+  .btn {
+    width: 200px;
+    margin-bottom: 1em;
+  }
+  #custom_input {
+    width: 260px;
+  }
+}
+
+@media only screen and (max-width: 260px) {
+  .btn {
+    width: 90%;
+    margin-bottom: 1em;
+  }
+  #custom_input {
+    width: 90%;
+  }
 }
 /*# sourceMappingURL=main.css.map */
