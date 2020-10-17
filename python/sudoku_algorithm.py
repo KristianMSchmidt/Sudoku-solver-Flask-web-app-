@@ -3,6 +3,8 @@ Automatic soduko solver using two different algorithms:
  1) AC-3 algorithm (short for Arc Consistency Algorithm #3)
  2) BTS (Back Tracking Search)
 In both cases, a soduko puzzle is viewed as a 'constraint satisfaction problem'.
+
+This version solves all 400 test cases in about 21 seconds.
 """
 import copy
 
@@ -142,16 +144,41 @@ def sudoku_solver(sudoku_string):
 
     return gen_solve_string(BTS_solution) + " BTS"
 
-# ======================= MISSION CONTROL  =====================================
 
-# Some useful global constants:
+# A few useful global constants:
 TILES = [row + col for row in "ABCDEFGHI" for col in "123456789"]
 ALL_CONSTRAINTS, CONSTRAINT_DICT = gen_constraints()
 
+
+
+# ======================= TEST  =====================================
+print("Hej fra alori")
 if __name__ == "__main__":
-    # Test case 1: 
-    test_case1 ="000000000302540000050301070000000004409006005023054790000000050700810000080060009"
-    print(sudoku_solver(test_case1))
-    # Test case 2: 
-    test_case2 = "000260701680070090190004500820100040004602900050003028009300074040050036703018000"
-    print(sudoku_solver(test_case2))
+
+    def small_test():
+        # Test case 1: 
+        test_case1 ="000000000302540000050301070000000004409006005023054790000000050700810000080060009"
+        print(sudoku_solver(test_case1))
+        # Test case 2: 
+        test_case2 = "000260701680070090190004500820100040004602900050003028009300074040050036703018000"
+        print(sudoku_solver(test_case2))
+
+    def big_test():
+        # get solutions
+        with open("sudokus_finish.txt") as file:
+            all_solutions = [line.strip() for line in file]
+
+        #solve sudokus and compare with solutions:
+        with open("sudokus_start.txt") as all_sudokus:
+            for i, sudoku in enumerate(all_sudokus):
+                calculated = sudoku_solver(sudoku)
+                expected = all_solutions[i]
+                assert(calculated == expected)
+                assert(is_solved(gen_board(calculated.split()[0])))
+                print("#{}: {}".format(i+1, calculated))
+        
+        print("Solved all 400 sudokus correctly")
+        
+    #small_test()
+    big_test()
+
