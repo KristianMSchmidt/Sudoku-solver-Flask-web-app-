@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block body %}
-
 <h1>Sudoku Solver</h1>
 <p>Solve one of the sample sudokus or enter your own custom sudoku</p>
 
@@ -35,29 +34,25 @@
 
 <p id="input_error">"Invalid input (only digits 0-9 are allowed)"</p>
 
-<script src="../static/js/main.js"></script>
+<script src="../static/js/modules.js"></script>
 
 <script>
+    // make input soduku visible on board
     show_board("{{sudoku}}");        
+
+    // if user has asked for, or solved, a custom sudoku, do this:
     "{% if title=='Your Sudoku'%}"
-        document.getElementById("custom_form").style.visibility="visible";
-        document.getElementById("custom_input").value=remove_trailing_zeros("{{sudoku}}");
-        document.getElementById("custom_input").focus();
-        document.getElementById("custom_input").addEventListener('input', (event) => {
-        input_handler();
-       });
+        setup_custom_sudoku("{{sudoku}}")
     "{% endif %}"
+
+    // only do this after a solution attempt
     "{% if return_from_solver %}"
         "{% if is_solvable == true %}"
-            show_board("{{solved_sudoku}}", is_solution=true); 
-            document.getElementById("solution_feedback").style.color = "green";
-            document.getElementById("solution_feedback").innerHTML += "Solved using {{solution_method}}";
-    "{% else %}"
-            document.getElementById("solution_feedback").style.color = "red";
-            document.getElementById("solution_feedback").innerHTML += "This sudoku has no solution!";
+            show_succes("{{solved_sudoku}}","{{solution_method}}")
+        "{% else %}"
+            show_failure()
+        "{% endif %}"
     "{% endif %}"
-"{% endif %}"
 </script>
-
 
 {% endblock body %}

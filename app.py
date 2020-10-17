@@ -12,7 +12,7 @@ from python.sudoku_algorithm import sudoku_solver
 
 app = Flask(__name__)
 
-# import sudoku library
+# Import sudoku collection from text-file
 with open("python/sudokus_start.txt") as all_sudokus:
     sudokus = list(map(lambda s: s.strip(), all_sudokus))
 
