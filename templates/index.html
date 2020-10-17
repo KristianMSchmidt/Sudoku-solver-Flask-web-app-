@@ -13,7 +13,6 @@
     <input class="btn" type="submit" value="Your Custom Sudoku"/>
 </form>
 
-
 <p id="solution_feedback">&nbsp</p>
 <h4 id="sudoku_title">{{title}}</h4>
 
@@ -21,18 +20,19 @@
     {% include 'sudoku_board.html' %}
 </div>
 
-<form action="{{ url_for('solver') }}" method="post">
-    <input type="hidden" id="sudoku" name="sudoku" value="{{sudoku}}">
-    <input type="hidden" id="title" name="title" value="{{title}}">
-    <input type="submit" value="Solve" id="solve_btn" class="btn"/>
-</form>
+<p id="input_error">"Invalid input (only digits 0-9 are allowed)"</p>
 
 <form  id="custom_form" autocomplete="off" onkeydown="return event.key != 'Enter'">
     <input type="text" name="custom_input" id="custom_input" maxlength="81" 
     placeholder="Enter your sudoku (use digits)">
 </form>
 
-<p id="input_error">"Invalid input (only digits 0-9 are allowed)"</p>
+
+<form action="{{ url_for('solver') }}" method="post">
+    <input type="hidden" id="sudoku" name="sudoku" value="{{sudoku}}">
+    <input type="hidden" id="title" name="title" value="{{title}}">
+    <input type="submit" value="Solve" id="solve_btn" class="btn"/>
+</form>
 
 <script src="../static/js/modules.js"></script>
 

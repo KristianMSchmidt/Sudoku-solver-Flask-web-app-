@@ -67,12 +67,12 @@ function input_handler(){
 
     if(!isnum && input.length>0){
         //There is an error in input
-        document.getElementById("input_error").style.visibility="visible";
+        document.getElementById("input_error").style.display="block";
         document.getElementById("solve_btn").disabled = true;  
     }
     else{
         //No errors in input
-        document.getElementById("input_error").style.visibility="hidden";   
+        document.getElementById("input_error").style.display="none";   
         document.getElementById("sudoku").value = long_input;
         document.getElementById("solve_btn").disabled = false;  
     }
@@ -85,7 +85,7 @@ function input_handler(){
 } 
 
 function setup_custom_sudoku(sudoku){
-    document.getElementById("custom_form").style.visibility="visible";
+    document.getElementById("custom_form").style.display="block";
     document.getElementById("custom_input").value=remove_trailing_zeros(sudoku);
     document.getElementById("custom_input").focus();
     document.getElementById("custom_input").addEventListener('input', (event) => {
