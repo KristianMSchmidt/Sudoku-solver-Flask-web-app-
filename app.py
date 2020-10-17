@@ -7,57 +7,66 @@
 # 6) In terminal: "python app.py"
 
 from flask import Flask, render_template, request
-from lib.sudoku_solver import sudoku_solver 
+from random import choice as random_choice
+from python.sudoku_algorithm import sudoku_solver 
 
 app = Flask(__name__)
 
-sudokus = [
-     {"title": "Sample Sudoku #1",
-     "board": "000260701680070090190004500820100040004602900050003028009300074040050036703018000"},
-    {"title": "Sample Sudoku #2",
-     "board": "000000000302540000050301070000000004409006005023054790000000050700810000080060009"},
-    {"title": "Sample Suduko #3",
-     "board": "530070000600195000098000060800060003400803001700020006060000280000419005000080079"},
-]
+# import sudoku library
+with open("python/sudokus_start.txt") as all_sudokus:
+    sudokus = list(map(lambda s: s.strip(), all_sudokus))
 
-@app.route("/", methods=['GET'])
+@app.route("/", methods=['GET', 'POST'])
 def index():
-    return render_template("index.html", sudokus = sudokus) 
+    try:
+        # User has requested a custom sudoku
+        request.form['custom']
+        empty_sudoku = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        return render_template("index.html", title="Your Sudoku", sudoku = empty_sudoku) 
+    except: 
+        # User has requested a sample sudoku
+        sample_number = random_choice(range(400))
+        sample_sudoku = sudokus[sample_number]
+        title = "Sample Sudoku #" + str(sample_number)
+        return render_template("index.html", title=title, sudoku = sample_sudoku) 
 
 @app.route('/solver', methods=['GET', 'POST'])
 def solver():  
     try:
-        sudoku_string = request.form['board'] 
-        sudoku_number = request.form['sudoko_number']
+        sudoku = request.form['sudoku']
+        title = request.form['title'] 
     except:
-        return render_template("index.html", sudokus = sudokus)
-
+        #If user tries to acces this page without form submission, return the user to index page
+        sample_number = random_choice(range(400))
+        sample_sudoku = sudokus[sample_number]
+        title = "Sample Sudoku #" + str(sample_number)
+        return render_template("index.html", title=title, sudoku = sample_sudoku) 
     try:
-        solution_feedback = sudoku_solver(sudoku_string).split()
+        # Sudoku is solvable
+        solution_feedback = sudoku_solver(sudoku).split()
         solved_sudoku = solution_feedback[0]
         if solution_feedback[1] == "BTS":
-            solution_method = "Arc Consistency Algorithm #3 & Backtracking Search"
+            solution_method = "Backtracking Search"
         else: 
-            solution_method = "Arc Consistency Algorithm #3"
+            solution_method = "Arc Consistency #3 Algorithm"
 
         return render_template(
             'index.html',
+            title=title,
+            sudoku = sudoku,
             return_from_solver = True,
             is_solvable = True, 
             solved_sudoku = solved_sudoku,
-            sudoku_string = sudoku_string,
-            sudoku_number = sudoku_number,
-            sudokus = sudokus,
             solution_method = solution_method
         )        
     except:
+        #Sudoku is not solvable
         return render_template(
             'index.html',
             return_from_solver = True,
-            is_solvable = False, 
-            sudoku_string = sudoku_string,
-            sudoku_number = sudoku_number,
-            sudokus = sudokus
+            is_solvable = False,
+            title=title, 
+            sudoku = sudoku, 
         )
         
 if __name__ == "__main__":

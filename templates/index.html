@@ -1,70 +1,62 @@
 {% extends 'base.html' %}
+
 {% block body %}
-    
-    <h1>Fast Sudoku Solver</h1>
-    <p>Solve one of the sample sudokus or enter your own</p>
-   
-    {% for sudoku in sudokus %} 
-        <label for="sudoku_{{loop.index}}">{{sudoku.title}}: </label>
-        <p id="sudoku_{{loop.index}}" class="sample_sudoku_string">{{sudoku.board}}</p>
-        <input type="button" value="Show" onclick="show_handler('{{loop.index}}')"/><br>
 
-        <form method="post" action="{{ url_for('solver') }}"  id="sudoku_form_{{loop.index}}">
-            <input type="hidden" name="board" id="sudoku{{loop.index}}_input" value={{sudoku.board}}>
-            <input type="hidden" name="title" id="title_{{loop.index}}" value="{{sudoku.title}}">
-            <input type="hidden" name="sudoko_number" value="{{loop.index}}">
-        </form>
-    {% endfor %}
- 
-    <form method="post" action="{{ url_for('solver') }}" autocomplete="off" id="sudoku_form_4">
-        <label for="sudoku_4">Your Sudoku:</label>
-        <input type="text" 
-               name="board" id="sudoku4_input" maxlength="81" 
-               placeholder="Enter your own sudoku">
-        <input type="hidden" name="sudoko_number" value="4">
-        <input type="hidden" name="title" id="title_4" value="Your Sudoku">
-        <input type="button" value="Show" onclick ="show_handler(4)"/>
-    </form>
+<h1>Sudoku Solver</h1>
+<p>Solve one of the sample sudokus or enter your own custom sudoku</p>
 
-    <p id="input_error">&nbsp;</p>
-    <h4 id="sudoku_title">Sudoku</h4>
-    <p id="feedback">&nbsp</p>
+<form action="/" style="display:inline" method="POST">
+    <input type="submit" value="New Sample Sudoku"/>
+</form>
 
-    <div id="sudoku_area" class="container">
-        {% include 'sudoku_board.html' %}
-    </div>
-    <input id="solve_btn" type="button" value="Solve"/>
-
-    <script src="../static/js/main.js"></script>
+<form action="/" style="display:inline" method="POST">
+    <input type="hidden" name="custom" value="">
+    <input type="submit" value="Custom Sudoku"/>
+</form>
 
 
-    {% if return_from_solver%}
-        {% if sudoku_number == "4" %}
-            <script>
-                reduced_str = remove_trailing_zeros("{{sudoku_string}}");
-                document.getElementById("sudoku4_input").value = reduced_str;
-            </script>
-        {% endif %}
-        <script>
-            show_board("{{sudoku_number}}", "{{sudoku_string}}");
-        </script>
-        {% if is_solvable == true %}
+<p id="solution_feedback">&nbsp</p>
+<h4 id="sudoku_title">{{title}}</h4>
 
-            <script>
-                show_board("{{sudoku_number}}", "{{solved_sudoku}}", is_solution= true);
-                document.getElementById("feedback").style.color = "green";
-                document.getElementById("feedback").innerHTML += "Solved using {{solution_method}}";
-            </script>
-        {% else %}
-            <script>
-                document.getElementById("feedback").style.color = "red";
-                document.getElementById("feedback").innerHTML += "This sudoku has no solution!";
-            </script>
-        {% endif %}
-    {% else %}
-        <script>
-          input_handler(1);
-        </script>
-    {% endif %} 
+<div class="container">
+    {% include 'sudoku_board.html' %}
+</div>
+
+<form action="{{ url_for('solver') }}" method="post">
+    <input type="hidden" id="sudoku" name="sudoku" value="{{sudoku}}">
+    <input type="hidden" id="title" name="title" value="{{title}}">
+    <input type="submit" value="Solve" id="solve_btn"/>
+</form>
+
+<form  id="custom_form" autocomplete="off" onkeydown="return event.key != 'Enter'">
+    <input type="text" name="custom_input" id="custom_input" maxlength="81" 
+    placeholder="Enter your sudoku (use digits)">
+</form>
+
+<p id="input_error">"Invalid input (only digits 0-9 are allowed)"</p>
+
+<script src="../static/js/main.js"></script>
+
+<script>
+    show_board("{{sudoku}}");        
+    "{% if title=='Your Sudoku'%}"
+        document.getElementById("custom_form").style.visibility="visible";
+        document.getElementById("custom_input").value=remove_trailing_zeros("{{sudoku}}");
+        document.getElementById("custom_input").addEventListener('input', (event) => {
+        input_handler();
+       });
+    "{% endif %}"
+    "{% if return_from_solver %}"
+        "{% if is_solvable == true %}"
+            show_board("{{solved_sudoku}}", is_solution=true); 
+            document.getElementById("solution_feedback").style.color = "green";
+            document.getElementById("solution_feedback").innerHTML += "Solved using {{solution_method}}";
+    "{% else %}"
+            document.getElementById("solution_feedback").style.color = "red";
+            document.getElementById("solution_feedback").innerHTML += "This sudoku has no solution!";
+    "{% endif %}"
+"{% endif %}"
+</script>
+
 
 {% endblock body %}
