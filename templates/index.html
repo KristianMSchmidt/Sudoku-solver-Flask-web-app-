@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1>Sudoku Solver</h1>
-<p>Solve one of the sample sudokus or enter your own custom sudoku</p>
+
+<h1><i>Fast </i>Sudoku Solver</h1>
+
+<p>Solve one of the sample sudokus or enter your own</p>
 
 <form class="top-form" action="/" style="display:inline" method="POST">
     <input class="btn" type="submit" value="New Sample Sudoku"/>
@@ -13,20 +15,21 @@
     <input class="btn" type="submit" value="Your Custom Sudoku"/>
 </form>
 
-<p id="solution_feedback">&nbsp</p>
+<p id="solution_feedback">&nbsp;</p>
+
 <h4 id="sudoku_title">{{title}}</h4>
 
-<div class="container">
-    {% include 'sudoku_board.html' %}
-</div>
-
-<p id="input_error">"Invalid input (only digits 0-9 are allowed)"</p>
 
 <form  id="custom_form" autocomplete="off" onkeydown="return event.key != 'Enter'">
     <input type="text" name="custom_input" id="custom_input" maxlength="81" 
     placeholder="Enter your sudoku (use digits)">
 </form>
 
+<p id="input_error">Invalid input (only digits 0-9 allowed)</p>
+
+<div class="container">
+    {% include 'sudoku_board.html' %}
+</div>
 
 <form action="{{ url_for('solver') }}" method="post">
     <input type="hidden" id="sudoku" name="sudoku" value="{{sudoku}}">
@@ -48,7 +51,7 @@
     // only do this after a solution attempt
     "{% if return_from_solver %}"
         "{% if is_solvable == true %}"
-            show_succes("{{solved_sudoku}}","{{solution_method}}")
+            show_succes("{{solved_sudoku}}","{{solution_method}}", "{{solution_time}}")
         "{% else %}"
             show_failure()
         "{% endif %}"

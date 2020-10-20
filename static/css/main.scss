@@ -1,5 +1,8 @@
-/* Don't for get to press "Watch Sass" in VSC*/
+/* Don't forget to press "Watch Sass" in VSC when editing this file*/
 
+html {
+  background-color: white;
+}
 body {
   border: 1.5px solid black;
   background-color: blanchedalmond;
@@ -13,15 +16,15 @@ body {
 
 #input_error {
   margin-top: 0;
-  margin-bottom: 0.5em;
+  margin-bottom: 0;
   color: red;
   display: none;
 }
 
 #solution_feedback {
   margin: 0;
-  margin-top: 2em;
-  margin-bottom: 1em;
+  margin-top: 1.8em;
+  margin-bottom: 1.8em;
 }
 
 .sudoku_title {
@@ -32,8 +35,8 @@ body {
 }
 
 #solve_btn {
-  margin-top: 0em;
-  margin-bottom: 3.5em;
+  margin-top: 0.5em;
+  margin-bottom: 2em;
 }
 .btn {
   width: 175px;
@@ -45,13 +48,12 @@ body {
 }
 
 #custom_input {
-  display: inline;
   font-size: 13.5px;
   margin-top: 0.5em;
-  margin-bottom: 1em;
+  margin-bottom: 0;
   margin-left: 0;
   margin-right: 0;
-  width: 400px;
+  width: 300px;
 }
 
 .board {
@@ -105,10 +107,11 @@ body {
 @media only screen and (max-width: 480px) {
   .btn {
     width: 200px;
+    height: 42px;
     margin-bottom: 1em;
   }
   #custom_input {
-    width: 260px;
+    width: 200px;
   }
 }
 
