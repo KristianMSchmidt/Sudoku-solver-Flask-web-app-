@@ -96,7 +96,8 @@ function setup_custom_sudoku(sudoku){
 function show_succes(solved_sudoku, solution_method, solution_time){
     show_board(solved_sudoku, is_solution=true); 
     document.getElementById("solution_feedback").style.color = "green";
-    document.getElementById("solution_feedback").innerHTML = `Solved server-side in ${solution_time} seconds`
+    document.getElementById("solution_feedback").innerHTML = `Solved server-side in ${solution_time} seconds`;
+    document.getElementById("solve_btn").disabled = true;
 }
 
 function show_failure(){
