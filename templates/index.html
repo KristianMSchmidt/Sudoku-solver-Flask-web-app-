@@ -2,9 +2,9 @@
 
 {% block body %}
 
-<h1>Sudoku Solver</h1>
+<h1><i>Fast </i>Sudoku Solver</h1>
 
-<p>Solve one of the sample sudokus or enter your own custom sudoku</p>
+<p>Solve one of the sample sudokus or enter your own</p>
 
 <form class="top-form" action="/" style="display:inline" method="POST">
     <input class="btn" type="submit" value="New Sample Sudoku"/>
@@ -51,7 +51,7 @@
     // only do this after a solution attempt
     "{% if return_from_solver %}"
         "{% if is_solvable == true %}"
-            show_succes("{{solved_sudoku}}","{{solution_method}}")
+            show_succes("{{solved_sudoku}}","{{solution_method}}", "{{solution_time}}")
         "{% else %}"
             show_failure()
         "{% endif %}"

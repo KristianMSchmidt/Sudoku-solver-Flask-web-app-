@@ -6,6 +6,7 @@ In both cases, a soduko puzzle is viewed as a 'constraint satisfaction problem'.
 
 This version solves all 400 test cases in about 21 seconds.
 """
+import copy
 
 def BTS(sudoku):
     """
@@ -128,15 +129,13 @@ def gen_solve_string(sudoku):
     #assert(is_solved(sudoku))
     return "".join([str(next(iter(val))) for _, val in sorted(sudoku.items())])
 
-
-
 def sudoku_solver(sudoku_string):
 
     sudoku = gen_board(sudoku_string)
 
     AC_3_attempt = AC_3_first_time(sudoku)
 
-    if is_solved(AC_3_attempt):
+    if is_solved(AC_3_attempt):        
         return gen_solve_string(AC_3_attempt) + " AC3"
 
     BTS_solution = BTS(AC_3_attempt)
@@ -151,8 +150,6 @@ ALL_CONSTRAINTS, CONSTRAINT_DICT = gen_constraints()
 
 # ======================= TESTING  =====================================
 if __name__ == "__main__":
-
-    import copy;
 
     def small_test():
         # Test case 1: 
@@ -178,6 +175,6 @@ if __name__ == "__main__":
         
         print("Solved all 400 sudokus correctly")
         
-    #small_test()
-    big_test()
+    small_test()
+    #big_test()
 

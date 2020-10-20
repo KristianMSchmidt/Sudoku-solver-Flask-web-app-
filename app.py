@@ -9,7 +9,8 @@
 from flask import Flask, render_template, request
 from random import choice as random_choice
 from python.sudoku_algorithm import sudoku_solver 
-import copy
+import timeit
+
 app = Flask(__name__)
 
 # Import sudoku collection from text-file
@@ -43,8 +44,12 @@ def solver():
         return render_template("index.html", title=title, sudoku = sample_sudoku) 
     try:
         # Sudoku is solvable
+        starttime = timeit.default_timer()
         solution_feedback = sudoku_solver(sudoku).split()
+        solution_time = round(timeit.default_timer() - starttime,3)
+
         solved_sudoku = solution_feedback[0]
+        
         if solution_feedback[1] == "BTS":
             solution_method = "Backtracking Search"
         else: 
@@ -57,7 +62,8 @@ def solver():
             return_from_solver = True,
             is_solvable = True, 
             solved_sudoku = solved_sudoku,
-            solution_method = solution_method
+            solution_method = solution_method,
+            solution_time = solution_time
         )        
     except:
         #Sudoku is not solvable
