@@ -9,7 +9,7 @@
 from flask import Flask, render_template, request
 from random import choice as random_choice
 from python.sudoku_algorithm import sudoku_solver 
-
+import copy
 app = Flask(__name__)
 
 # Import sudoku collection from text-file

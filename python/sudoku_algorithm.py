@@ -6,7 +6,6 @@ In both cases, a soduko puzzle is viewed as a 'constraint satisfaction problem'.
 
 This version solves all 400 test cases in about 21 seconds.
 """
-import copy
 
 def BTS(sudoku):
     """
@@ -152,6 +151,8 @@ ALL_CONSTRAINTS, CONSTRAINT_DICT = gen_constraints()
 
 # ======================= TESTING  =====================================
 if __name__ == "__main__":
+
+    import copy;
 
     def small_test():
         # Test case 1: 
