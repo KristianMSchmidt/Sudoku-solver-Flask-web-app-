@@ -15,7 +15,7 @@ body {
   height: 100%;
 }
 
-.container {
+.flex-container {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -90,49 +90,49 @@ h1 {
   background-color: cornsilk;
 }
 
-.sudoku_board div {
+.sudoku_board > div {
   line-height: 21px;
   border-top: 1px solid black;
   border-right: 1px solid black;
 }
 
-.sudoku_board div:nth-child(3n + 0) {
+.sudoku_board > div:nth-child(3n + 0) {
   border-right: 2px solid black;
 }
 
-.sudoku_board div:nth-child(27n + 1) {
+.sudoku_board > div:nth-child(27n + 1) {
   border-top: 2px solid black;
 }
 
-.sudoku_board div:nth-child(27n + 2) {
+.sudoku_board > div:nth-child(27n + 2) {
   border-top: 2px solid black;
 }
 
-.sudoku_board div:nth-child(27n + 3) {
+.sudoku_board > div:nth-child(27n + 3) {
   border-top: 2px solid black;
 }
 
-.sudoku_board div:nth-child(27n + 4) {
+.sudoku_board > div:nth-child(27n + 4) {
   border-top: 2px solid black;
 }
 
-.sudoku_board div:nth-child(27n + 5) {
+.sudoku_board > div:nth-child(27n + 5) {
   border-top: 2px solid black;
 }
 
-.sudoku_board div:nth-child(27n + 6) {
+.sudoku_board > div:nth-child(27n + 6) {
   border-top: 2px solid black;
 }
 
-.sudoku_board div:nth-child(27n + 7) {
+.sudoku_board > div:nth-child(27n + 7) {
   border-top: 2px solid black;
 }
 
-.sudoku_board div:nth-child(27n + 8) {
+.sudoku_board > div:nth-child(27n + 8) {
   border-top: 2px solid black;
 }
 
-.sudoku_board div:nth-child(27n + 9) {
+.sudoku_board > div:nth-child(27n + 9) {
   border-top: 2px solid black;
 }
 
