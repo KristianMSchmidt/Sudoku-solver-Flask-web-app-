@@ -2,60 +2,63 @@
 
 {% block body %}
 
-<h1><i>Fast </i>Sudoku Solver</h1>
-
-<p>Solve one of the sample sudokus or enter your own</p>
-
-<form class="top-form" action="/" style="display:inline" method="POST">
-    <input class="btn" type="submit" value="New Sample Sudoku"/>
-</form>
-
-<form class="top-form" action="/" style="display:inline" method="POST">
-    <input type="hidden" name="custom" value="">
-    <input class="btn" type="submit" value="Your Custom Sudoku"/>
-</form>
-
-<p id="solution_feedback">&nbsp;</p>
-
-<h4 id="sudoku_title">{{title}}</h4>
-
-
-<form  id="custom_form" autocomplete="off" onkeydown="return event.key != 'Enter'">
-    <input type="text" name="custom_input" id="custom_input" maxlength="81" 
-    placeholder="Enter your sudoku (use digits)">
-</form>
-
-<p id="input_error">Invalid input (only digits 0-9 allowed)</p>
-
 <div class="container">
-    {% include 'sudoku_board.html' %}
-</div>
+    <h1><i>Fast </i>Sudoku Solver</h1>
+    <p>Solve one of the sample sudokus or enter your own</p>
 
-<form action="{{ url_for('solver') }}" method="post">
-    <input type="hidden" id="sudoku" name="sudoku" value="{{sudoku}}">
-    <input type="hidden" id="title" name="title" value="{{title}}">
-    <input type="submit" value="Solve" id="solve_btn" class="btn"/>
-</form>
+    <form class="top-form" action="/" method="POST">
+        <input class="btn" type="submit" value="New Sample Sudoku"/>
+    </form>
 
-<script src="../static/js/modules.js"></script>
+    <form class="top-form" action="/" method="POST">
+        <input type="hidden" name="custom" value="">
+        <input class="btn" type="submit" value="Your Custom Sudoku"/>
+    </form>
 
-<script>
-    // make input soduku visible on board
-    show_board("{{sudoku}}");        
+    <p id="solution_feedback">&nbsp;</p>
 
-    // if user has asked for, or solved, a custom sudoku, do this:
-    "{% if title=='Your Sudoku'%}"
-        setup_custom_sudoku("{{sudoku}}")
-    "{% endif %}"
+    <h4 id="sudoku_title">{{title}}</h4>
 
-    // only do this after a solution attempt
-    "{% if return_from_solver %}"
-        "{% if is_solvable == true %}"
-            show_succes("{{solved_sudoku}}","{{solution_method}}", "{{solution_time}}")
-        "{% else %}"
-            show_failure()
+    <form  id="custom_form" autocomplete="off" onkeydown="return event.key != 'Enter'">
+        <input type="text" name="custom_input" id="custom_input" maxlength="81" 
+        placeholder="Enter your sudoku (use digits)">
+    </form>
+
+    <p id="input_error">Invalid input (only digits 0-9 allowed)</p>
+
+    <div class="sudoku_board">
+        {% for i in range(81) %}
+            <div id="{{i}}"></div>
+        {% endfor %}
+    </div>
+
+
+    <form action="{{ url_for('solver') }}" method="post">
+        <input type="hidden" id="sudoku" name="sudoku" value="{{sudoku}}">
+        <input type="hidden" id="title" name="title" value="{{title}}">
+        <input type="submit" value="Solve" id="solve_btn" class="btn"/>
+    </form>
+
+    <script src="../static/js/modules.js"></script>
+
+    <script>
+        // make input soduku visible on board
+        show_board("{{sudoku}}");        
+
+        // if user has asked for, or solved, a custom sudoku, do this:
+        "{% if title=='Your Sudoku'%}"
+            setup_custom_sudoku("{{sudoku}}")
         "{% endif %}"
-    "{% endif %}"
-</script>
+
+        // only do this after a solution attempt
+        "{% if return_from_solver %}"
+            "{% if is_solvable == true %}"
+                show_succes("{{solved_sudoku}}","{{solution_method}}", "{{solution_time}}")
+            "{% else %}"
+                show_failure()
+            "{% endif %}"
+        "{% endif %}"
+    </script>
+</div>
 
 {% endblock body %}
