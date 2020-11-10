@@ -8,72 +8,57 @@
 
 from flask import Flask, render_template, request
 from random import choice as random_choice
-from python.sudoku_algorithm import sudoku_solver 
-import timeit
+from backend.sudoku_algorithm import sudoku_solver 
+import timeit, json
+
+# Import collection of 400 sudokus from text-file
+with open("backend/sudokus_start.txt") as all_sudokus:
+    sudokus = list(map(lambda s: s.strip(), all_sudokus))
 
 app = Flask(__name__)
 
-# Import sudoku collection from text-file
-with open("python/sudokus_start.txt") as all_sudokus:
-    sudokus = list(map(lambda s: s.strip(), all_sudokus))
-
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    try:
-        # User has requested a custom sudoku
-        request.form['custom']
-        empty_sudoku = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-        return render_template("index.html", title="Your Sudoku", sudoku = empty_sudoku) 
-    except: 
-        # User has requested a sample sudoku
+
+    if request.method == 'GET':
+        action = "new_sample"
+
+    else: 
+        data = json.loads(request.form["json_data"])   #return(json.dumps(data))
+        action = data["requested_action"]
+        sudoku = data["sudoku"]
+
+    if action == 'new_sample':        
         sample_number = random_choice(range(400))
-        sample_sudoku = sudokus[sample_number]
+        sudoku = sudokus[sample_number]
         title = "Sample Sudoku #" + str(sample_number)
-        return render_template("index.html", title=title, sudoku = sample_sudoku) 
+        data = {}
+        data["requested_action"] = "new_sample"
+        data["sudoku"] = sudoku
+        data["title"] = title
+    
+    elif action == 'new_custom':
+        empty_sudoku =  "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        data["sudoku"] = empty_sudoku
+        data["title"]= "Your Sudoku"
 
-@app.route('/solver', methods=['GET', 'POST'])
-def solver():  
-    try:
-        sudoku = request.form['sudoku']
-        title = request.form['title'] 
-    except:
-        #If user tries to acces this page without form submission, return the user to index page
-        sample_number = random_choice(range(400))
-        sample_sudoku = sudokus[sample_number]
-        title = "Sample Sudoku #" + str(sample_number)
-        return render_template("index.html", title=title, sudoku = sample_sudoku) 
-    try:
-        # Sudoku is solvable
-        starttime = timeit.default_timer()
-        solution_feedback = sudoku_solver(sudoku).split()
-        solution_time = round(timeit.default_timer() - starttime,3)
+    elif action == 'solve':
 
-        solved_sudoku = solution_feedback[0]
-        
-        if solution_feedback[1] == "BTS":
-            solution_method = "Backtracking Search"
-        else: 
-            solution_method = "Arc Consistency #3 Algorithm"
+        try:
+            starttime = timeit.default_timer()
+            solution_feedback = sudoku_solver(sudoku).split() # returns error if sudoku not solvable
+            data["solution_time"] = round(timeit.default_timer() - starttime,3)
+            data["is_solvable"] = True
+            data["solved_sudoku"] = solution_feedback[0]
+            if solution_feedback[1] == "BTS":
+                data["solution_method"] = "Backtracking Search"
+            else: 
+                data["solution_method"] = "Arc Consistency #3 Algorithm"
 
-        return render_template(
-            'index.html',
-            title=title,
-            sudoku = sudoku,
-            return_from_solver = True,
-            is_solvable = True, 
-            solved_sudoku = solved_sudoku,
-            solution_method = solution_method,
-            solution_time = solution_time
-        )        
-    except:
-        #Sudoku is not solvable
-        return render_template(
-            'index.html',
-            return_from_solver = True,
-            is_solvable = False,
-            title=title, 
-            sudoku = sudoku, 
-        )
-        
+        except:
+            data["is_solvable"] = False
+
+    return render_template("index.html", data = data)
+
 if __name__ == "__main__":
     app.run(debug=True)

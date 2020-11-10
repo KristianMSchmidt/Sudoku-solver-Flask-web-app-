@@ -14,7 +14,7 @@ function remove_trailing_zeros(str){
     return "";
 }
 
-function show_board(sudoku, is_solution=false){
+function show_board(is_solution=false){
     /* Helper function that takes a soduko string and shows it on the sudoku board
     
        The sudoku is 81 string (possibly with errors input errors).
@@ -25,8 +25,12 @@ function show_board(sudoku, is_solution=false){
             Draw the soduku, and make non-zero input fontweight bold.
         If solution:
             Draw the solution without changing bold fontweight 
-    */        
-
+    */    
+    if(!is_solution){       
+        sudoku = js_data["sudoku"];
+    } else{
+        sudoku = js_data["solved_sudoku"]
+    }
     for (let index = 0; index < 81; index++) {
         if (sudoku[index] != "0"){
             document.getElementById(index).innerHTML = sudoku[index]
@@ -42,14 +46,7 @@ function show_board(sudoku, is_solution=false){
     }
 }
 
-function zero_pad(str){
-    //Right pad string with zeros if it's shorter than 81 digits
-    zeros = "".padStart(81 - str.length, '0');
-    str += zeros;
-    return str             
-}
-
-function input_handler(){
+function input_field_handler(){
     /*This function is to be called every time the user changes the value of the input field.
       I should to do following:
         1) Tell user about possible errors in input (not digit values)
@@ -58,7 +55,6 @@ function input_handler(){
         3) Draw input sudoku regardless of errors
         4) Clear solution feedback message
     */
-
     input = document.getElementById("custom_input").value;
     long_input = zero_pad(input);
 
@@ -73,30 +69,34 @@ function input_handler(){
     else{
         //No errors in input
         document.getElementById("input_error").style.display="none";   
-        document.getElementById("sudoku").value = long_input;
         document.getElementById("solve_btn").disabled = false;  
+        js_data["sudoku"]= long_input;
     }
 
     //Draw board position (regardless of errors in input)
-    show_board(long_input)
+    show_board()
 
     //Clear feedback message
     document.getElementById("solution_feedback").innerHTML="&nbsp";
 } 
 
-function setup_custom_sudoku(sudoku){
-    document.getElementById("custom_form").style.display="block";
-    document.getElementById("custom_input").value=remove_trailing_zeros(sudoku);
-    document.getElementById("custom_input").focus();
-    document.getElementById("custom_input").addEventListener('input', (event) => {
-    input_handler();
-    });
+function zero_pad(str){
+    //Right pad string with zeros if it's shorter than 81 digits
+    zeros = "".padStart(81 - str.length, '0');
+    str += zeros;
+    return str             
 }
 
-function show_succes(solved_sudoku, solution_method, solution_time){
-    show_board(solved_sudoku, is_solution=true); 
+function setup_custom_sudoku(){
+    document.getElementById("custom_input").style.display="block";
+    document.getElementById("custom_input").value = remove_trailing_zeros(js_data["sudoku"]);
+    document.getElementById("custom_input").focus();
+}
+
+function show_succes(){
+    show_board(is_solution = true); 
     document.getElementById("solution_feedback").style.color = "green";
-    document.getElementById("solution_feedback").innerHTML = `Solved on the server in ${solution_time} seconds`;
+    document.getElementById("solution_feedback").innerHTML = `Solved on the server in ${js_data["solution_time"]} seconds`;
     document.getElementById("solve_btn").disabled = true;
 }
 
