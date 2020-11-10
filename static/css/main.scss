@@ -16,13 +16,17 @@ body {
   height: 100%;
 }
 
-.container {
+.flex-container {
   width: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+}
+
+h1 {
+  margin-top: 0.5em;
 }
 
 .top-form {
@@ -45,11 +49,12 @@ body {
 }
 
 #solve_btn {
-  margin-top: 0.5em;
+  margin-top: 0.7em;
   margin-bottom: 2em;
 }
 .btn {
   width: 175px;
+  height: 2em;
 }
 #custom_form {
   display: none;
@@ -71,40 +76,41 @@ body {
   width: 200px;
   height: 200px;
   background-color: cornsilk;
-  div {
-    line-height: 21px;
-    border-top: 1px solid black;
-    border-right: 1px solid black;
-    &:nth-child(3n + 0) {
-      border-right: 2px solid black;
-    }
-    &:nth-child(27n + 1) {
-      border-top: 2px solid black;
-    }
-    &:nth-child(27n + 2) {
-      border-top: 2px solid black;
-    }
-    &:nth-child(27n + 3) {
-      border-top: 2px solid black;
-    }
-    &:nth-child(27n + 4) {
-      border-top: 2px solid black;
-    }
-    &:nth-child(27n + 5) {
-      border-top: 2px solid black;
-    }
-    &:nth-child(27n + 6) {
-      border-top: 2px solid black;
-    }
-    &:nth-child(27n + 7) {
-      border-top: 2px solid black;
-    }
-    &:nth-child(27n + 8) {
-      border-top: 2px solid black;
-    }
-    &:nth-child(27n + 9) {
-      border-top: 2px solid black;
-    }
+}
+
+.sudoku_board > div {
+  line-height: 21px;
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  &:nth-child(3n + 0) {
+    border-right: 2px solid black;
+  }
+  &:nth-child(27n + 1) {
+    border-top: 2px solid black;
+  }
+  &:nth-child(27n + 2) {
+    border-top: 2px solid black;
+  }
+  &:nth-child(27n + 3) {
+    border-top: 2px solid black;
+  }
+  &:nth-child(27n + 4) {
+    border-top: 2px solid black;
+  }
+  &:nth-child(27n + 5) {
+    border-top: 2px solid black;
+  }
+  &:nth-child(27n + 6) {
+    border-top: 2px solid black;
+  }
+  &:nth-child(27n + 7) {
+    border-top: 2px solid black;
+  }
+  &:nth-child(27n + 8) {
+    border-top: 2px solid black;
+  }
+  &:nth-child(27n + 9) {
+    border-top: 2px solid black;
   }
 }
 
