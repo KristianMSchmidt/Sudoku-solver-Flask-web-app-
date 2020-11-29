@@ -1,16 +1,23 @@
 """
 Automatic soduko solver using two different algorithms:
  1) AC-3 algorithm (short for Arc Consistency Algorithm #3)
- 2) BTS (Back Tracking Search)
+ 2) BTS (Back Tracking Search) - a depth first search using search heuristics 
 In both cases, a soduko puzzle is viewed as a 'constraint satisfaction problem'.
 
-This version solves all 400 test cases in about 21 seconds.
+This version solves all 400 test cases in about 18 seconds on my laptop.
+
+From Wiki: 
+"Backtracking is a general algorithm for finding all (or some) solutions to some 
+computational problems, notably constraint satisfaction problems, that
+incrementally builds candidates to the solutions, and abandons a candidate 
+("backtracks") as soon as it determines that the candidate cannot possibly
+be completed to a valid solution."
 """
 import copy
 
 def BTS(sudoku):
     """
-    Recursive Sudoku solver using Back Tracking Search (a sort of depth first search with "pruning").
+    Recursive Sudoku solver using depth first search with "pruning").
     When a variable is assigned, I apply forward checking to reduce variables domains.
     
     NB: This function alters it's argument.
@@ -21,7 +28,7 @@ def BTS(sudoku):
 
     # Select unassigned tile as start point of solution proces. 
     # It's a clever move to choose tile with as few remaining values left 
-    # as possible (2 is minimum for an unassigned tile)
+    # as possible (2 is minimum for an unassigned tile). This is my 'search heuristic'
     tile = min([(len(val), key) for key, val in sudoku.items() if len(val) > 1])[1]
     
     # Loop through the possible values for chosen tile
@@ -29,11 +36,11 @@ def BTS(sudoku):
         sudoku[tile] = set([value]) # Let's try to assign value to tile
         result_from_AC3 = AC_3_single_tile(sudoku, tile) # Check for inconsistencies with this choice
         if result_from_AC3 != False: # in this case AC_3 did not find any problems with the assignment
-            result = BTS(result_from_AC3) # Proceed with the choice recursively 
+            result = BTS(result_from_AC3) # Proceed recursively 
             # The result from BTS is either False (if no solution exists with the current assignment) or
             # else the result = a solved sudoku
             if result != False:    
-                return result  # a solved sudoku!
+                return result 
 
     # if we finish the loop without finding a solution, it means that the soduko is unsolvable
     return False
@@ -46,7 +53,6 @@ def AC_3_single_tile(sudoku, tile):
     Returns simplified sudoku otherwise. NB: This does not mean that sudoku is solved or solvable.
     NB: This version assumes, that the sudoku was arc-reduced before adding a value to the argument tile...
     """
-    
     current_sudoku = copy.deepcopy(sudoku)
 
     worklist = set([constraint for constraint in CONSTRAINT_DICT[tile]])
@@ -64,12 +70,13 @@ def AC_3_single_tile(sudoku, tile):
 
 def AC_3_all_constraints(sudoku):
     """
-    Arc consistency 3 algorithm for sodukos. This version is to be used before applying BTS. 
+    Arc consistency 3 algorithm for sodukos. 
+    In my speed-uptimized implementation, this version is to be used before applying BTS. 
 
     Note that in most cases, this algorithm will not be enough to solve the sudoku. It will only
-    reduce the number of options left for each unassighed tile. 
+    reduce the number of options left for each unassighed tile before applying BTS. 
     
-    Returns false if an inconsistency is found (in this case the sudoku is unsolvable).
+    Returns false if an inconsistency is found (in this case the input sudoku is unsolvable).
     Returns simplified sudoku otherwise. NB: This does not mean that sudoku is solved or solvable.
     """
     current_sudoku = sudoku
