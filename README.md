@@ -6,7 +6,7 @@ Speed-optimized automatic sudoky solver using two different algorithms:
 
 2. BTS (Back Tracking Search).
 
-In both cases, a soduko puzzle is viewed as a 'constraint satisfaction problem'.
+In both cases, a sudoku puzzle is viewed as a 'constraint satisfaction problem'.
 
 The algorithms are implemented with in Python.
 
