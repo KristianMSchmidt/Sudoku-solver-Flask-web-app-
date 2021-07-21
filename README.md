@@ -1,6 +1,6 @@
 # Sudoku-solver
 
-Speed-uptimized automatic soduko solver using two different algorithms:
+Speed-optimized automatic soduko solver using two different algorithms:
 
 1. AC-3 algorithm (short for Arc Consistency Algorithm #3)
 
