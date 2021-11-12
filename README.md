@@ -12,4 +12,4 @@ The algorithms are implemented with in Python.
 
 I originally made the backend of this project as an assignment for Columbia University's "Artificial Intelligence MicroMasters Program. More recently, I've designed a responsive front-end and put it all together using Flask. 
 
-The web app is live here: http://kristianmschmidt.pythonanywhere.com/.
+The web app is live here: http://sudoku.kristianms.com

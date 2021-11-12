@@ -10,7 +10,7 @@ def small_demo():
 
 def big_demo():
     """
-    Solving all 400 test sudokus. It takes about 20 seconds on my laptop. 
+    Solving all 400 test sudokus. Should not take much more than 20 seconds. 
     """
     # get solutions
     with open("sudokus_finish.txt") as file:
